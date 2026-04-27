@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Весілля Володимира та Олени</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-light: #FAFAFA;
+    --bg-white: #FFFFFF;
+    --primary-dark: #122620;
+    --accent-gold: #D6AD60;
+    --accent-gold-hover: #B8934E;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --border-light: #E0E0E0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-light);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /*(SCROLL REVEAL)*/
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /*ДЕКОРАТИВНІ ЕЛЕМЕНТИ*/
+  .elegant-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .elegant-divider::before, .elegant-divider::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: var(--accent-gold);
+    opacity: 0.5;
+  }
+  .elegant-divider .diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-gold);
+    transform: rotate(45deg);
+    animation: pulseGold 2s infinite ease-in-out;
+  }
+
+  @keyframes pulseGold {
+    0%, 100% { transform: rotate(45deg) scale(1); opacity: 1; }
+    50% { transform: rotate(45deg) scale(1.4); opacity: 0.7; }
+  }
+
+  /*HERO СЕКЦІЯ*/
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #1A362D 0%, #0F1C18 100%);
+    color: var(--bg-white);
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  /*Анімовані частинки на фоні*/
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    background-image: radial-gradient(var(--accent-gold) 0.5px, transparent 0.5px);
+    background-size: 50px 50px;
+    opacity: 0.1;
+    animation: drift 20s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50px); }
+  }
+
+  .hero-announcement {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.4rem;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-names {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .hero-ampersand {
+    display: block;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    color: var(--accent-gold);
+    font-style: italic;
+    margin: 0.5rem 0;
+  }
+
+  .hero-date {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 300;
+    margin-top: 2rem;
+    letter-spacing: 0.2rem;
+    opacity: 0;
+    text-transform: uppercase;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--accent-gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.8s forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: rgba(214, 173, 96, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--accent-gold);
+    animation: scrollDown 2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+  }
+
+  @keyframes scrollDown {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /*ЗАГАЛЬНІ СТИЛІ СЕКЦІЙ*/
+  .section { padding: 6rem 2rem; }
+  .section-alt { background: var(--bg-white); }
+  .section-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 600;
+    color: var(--primary-dark);
+  }
+
+  /*ФОТОГАЛЕРЕЯ*/
+  .photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .photo-slot {
+    aspect-ratio: 3/4;
+    background: var(--bg-light);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  }
+
+  .photo-slot:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(18, 38, 32, 0.1);
+    border-color: var(--accent-gold);
+  }
+
+  .photo-slot img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .photo-slot:hover img { transform: scale(1.05); }
+
+  .upload-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    z-index: 0;
+  }
+
+  .upload-icon { font-size: 1.5rem; color: var(--accent-gold); }
+
+  .photo-slot input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%; height: 100%;
+    z-index: 2;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--bg-white);
+    border: none;
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #e53935;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: transform 0.2s;
+  }
+  .remove-btn:hover { transform: scale(1.1); }
+  .photo-slot:hover .remove-btn { display: flex; }
+
+  /*РОЗКЛАД (TIMELINE)*/
+  .timeline { max-width: 800px; margin: 4rem auto 0; position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border-light);
+    transform: translateX(-50%);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .timeline-item:nth-child(odd) .tl-content { text-align: right; }
+  .timeline-item:nth-child(even) .tl-content { text-align: left; grid-column: 3; }
+  .timeline-item:nth-child(even) .tl-dot { grid-column: 2; }
+  .timeline-item:nth-child(even) .tl-time { grid-column: 1; grid-row: 1; text-align: right; }
+
+  .tl-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent-gold);
+    border: 4px solid var(--bg-white);
+    box-shadow: 0 0 0 1px var(--border-light);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+  .timeline-item:hover .tl-dot { transform: scale(1.2); }
+
+  .tl-time {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+
+  .tl-content {
+    background: var(--bg-white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .timeline-item:hover .tl-content { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+
+  .tl-content h3 { font-size: 1.1rem; font-weight: 500; color: var(--primary-dark); margin-bottom: 0.5rem; }
+  .tl-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+  /*КАРТА (MAP)*/
+  .map-container {
+    max-width: 900px;
+    margin: 3rem auto 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(18, 38, 32, 0.08);
+    transition: transform 0.4s ease;
+  }
+  .map-container:hover { transform: translateY(-5px); }
+
+  .map-info {
+    background: var(--primary-dark);
+    color: var(--bg-white);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .map-details h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 0.3rem; }
+  .map-details p { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+
+  /*КНОПКИ*/
+  .btn {
+    background: var(--accent-gold);
+    color: var(--bg-white);
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+  }
+  .btn:hover::after { left: 100%; }
+  .btn:hover { background: var(--accent-gold-hover); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(214, 173, 96, 0.4); }
+
+  .map-btn { margin-left: auto; }
+
+  /*RSVP ФОРМА*/
+  .rsvp-section { background: var(--primary-dark); color: var(--bg-white); }
+  .rsvp-section .section-label { color: rgba(255,255,255,0.6); }
+  .rsvp-section .section-title { color: var(--accent-gold); }
+  .rsvp-inner { max-width: 550px; margin: 0 auto; text-align: center; }
+  
+  .rsvp-text { font-size: 0.9rem; line-height: 1.8; color: rgba(255,255,255,0.8); margin-bottom: 3rem; }
+
+  .rsvp-form { display: flex; flex-direction: column; gap: 2rem; }
+
+  .rsvp-form input, .rsvp-form select, .rsvp-form textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding: 0.5rem 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--bg-white);
+    transition: border-color 0.4s;
+    outline: none;
+    width: 100%;
+  }
+
+  .rsvp-form input::placeholder, .rsvp-form textarea::placeholder { color: rgba(255,255,255,0.5); }
+  .rsvp-form select { color: rgba(255,255,255,0.5); cursor: pointer; }
+  .rsvp-form select option { background: var(--primary-dark); color: var(--bg-white); }
+  .rsvp-form input:focus, .rsvp-form select:focus, .rsvp-form textarea:focus { border-bottom-color: var(--accent-gold); }
+  .rsvp-form textarea { resize: vertical; min-height: 40px; }
+  
+  .rsvp-submit { margin-top: 1rem; width: 100%; padding: 1rem; }
+
+  .rsvp-success { display: none; color: var(--accent-gold); font-family: 'Playfair Display', serif; font-size: 1.5rem; padding: 3rem 0; }
+
+  /*ФУТЕР*/
+  footer { text-align: center; padding: 4rem 2rem; background: #0A1411; color: rgba(255,255,255,0.5); }
+  footer .footer-names { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bg-white); margin-bottom: 0.5rem; }
+  footer p { font-size: 0.75rem; letter-spacing: 0.1rem; }
+
+  /*АДАПТИВНІСТЬ*/
+  @media (max-width: 768px) {
+    .photo-gallery { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { left: 20px; }
+    .timeline-item { grid-template-columns: 40px 1fr; grid-template-rows: auto auto; gap: 1rem; }
+    .timeline-item:nth-child(odd) .tl-content, .timeline-item:nth-child(even) .tl-content { text-align: left; grid-column: 2; grid-row: 2; }
+    .timeline-item:nth-child(odd) .tl-time, .timeline-item:nth-child(even) .tl-time { grid-column: 2; grid-row: 1; text-align: left; font-size: 1.4rem; }
+    .timeline-item:nth-child(odd) .tl-dot, .timeline-item:nth-child(even) .tl-dot { grid-column: 1; grid-row: 1 / 3; }
+    .map-info { flex-direction: column; text-align: center; }
+    .map-btn { margin-left: 0; width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .photo-gallery { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <p class="hero-announcement">Запрошення на весілля</p>
+  <h1 class="hero-names">
+    Володимир
+    <span class="hero-ampersand">&</span>
+    Олена
+  </h1>
+  <p class="hero-date">12 липня 2025  ·  Харків</p>
+  <p class="hero-tagline">Розділіть з нами початок нашої історії</p>
+
+  <div class="scroll-hint">
+    <span>Гортай</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section class="section section-alt" id="photos">
+  <div class="section-inner reveal">
+    <p class="section-label">Наші моменти</p>
+    <h2 class="section-title">Історія кохання</h2>
+    <div class="elegant-divider"><div class="diamond"></div></div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+      Натисніть на картку, щоб додати фотографії
+    </p>
+
+    <div class="photo-gallery" id="gallery">
+      </div>
+  </div>
+</section>
+
+<section class="section" id="program">
+  <div class="section-inner reveal">
+    <p class="section-label">Програма дня</p>
+    <h2 class="section-title">Як пройде наш день</h2>
+    <div class="elegant-divider"><div class="diamond"></div></div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="tl-time">12:00</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <h3>Реєстрація шлюбу</h3>
+        <p>Відділ РАЦС, м. Харків</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <h3>Фотосесія</h3>
+        <p>Прогулянка та створення пам'ятних кадрів</p>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-time">13:00</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-time">15:00</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <h3>Початок бенкету</h3>
+        <p>Зустріч гостей у ресторані «Япіко»</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <h3>Урочиста вечеря</h3>
+        <p>Святкова програма, тости та щирі побажання</p>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-time">16:00</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-time">18:00</div>
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <h3>Танці та розваги</h3>
+        <p>Жива музика та святковий настрій для гостей</p>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="tl-content">
+        <h3>Весільний торт</h3>
+        <p>Солодкий символ нового спільного життя</p>
+      </div>
+      <div class="tl-dot"></div>
+      <div class="tl-time">20:00</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="map">
+  <div class="section-inner reveal">
+    <p class="section-label">Де нас знайти</p>
+    <h2 class="section-title">Локація</h2>
+    <div class="elegant-divider"><div class="diamond"></div></div>
+  </div>
+
+  <div class="map-container reveal">
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=36.2050%2C49.9900%2C36.2350%2C50.0060&layer=mapnik&marker=49.9980%2C36.2200"
+      width="100%" height="400" style="border:none;" allowfullscreen loading="lazy"
+      title="Карта ресторану Япіко"></iframe>
+    <div class="map-info">
+      <div class="map-details">
+        <h3>Ресторан «Япіко»</h3>
+        <p>пр. Науки, Харків, Україна</p>
+      </div>
+      <a class="btn map-btn" href="https://maps.google.com/?q=Japico+Restaurant+Проспект+Науки+Харків" target="_blank" rel="noopener">
+        Прокласти маршрут
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section rsvp-section" id="rsvp">
+  <div class="rsvp-inner reveal">
+    <p class="section-label">Підтвердження</p>
+    <h2 class="section-title">Будете з нами?</h2>
+    <div class="elegant-divider"><div class="diamond"></div></div>
+    <p class="rsvp-text">
+      Будь ласка, повідомте нам про вашу присутність до <strong>1 липня 2025</strong>.<br>
+      Ваша відповідь допоможе нам ідеально спланувати свято.
+    </p>
+
+    <form class="rsvp-form" id="rsvpForm">
+      <input type="text" placeholder="Ваше ім'я та прізвище" required />
+      <select required>
+        <option value="" disabled selected>Кількість гостей</option>
+        <option value="1">Тільки я (1 особа)</option>
+        <option value="2">Я та мій партнер (2 особи)</option>
+        <option value="3">3 особи</option>
+        <option value="4">4 особи</option>
+      </select>
+      <input type="tel" placeholder="Номер телефону" />
+      <textarea placeholder="Побажання або алергії на продукти (за бажанням)"></textarea>
+      <button type="submit" class="btn rsvp-submit">Підтвердити присутність</button>
+    </form>
+
+    <div class="rsvp-success" id="rsvpSuccess">
+      Дякуємо! З нетерпінням чекаємо на вас.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-names">Володимир & Олена</div>
+  <p>12.07.2025  ·  Харків</p>
+</footer>
+
+<script>
+// ── ГЕНЕРАЦІЯ ФОТОГАЛЕРЕЇ ──
+const gallery = document.getElementById('gallery');
+for (let i = 0; i < 6; i++) {
+  const slot = document.createElement('div');
+  slot.className = 'photo-slot reveal';
+  slot.style.transitionDelay = `${i * 0.1}s`; // Ступінчаста поява карток
+  
+  slot.innerHTML = `
+    <div class="upload-prompt">
+      <span class="upload-icon">✦</span>
+      <span>Додати фото</span>
+    </div>
+    <input type="file" accept="image/*" aria-label="Завантажити фото">
+    <button class="remove-btn" type="button" title="Видалити">✕</button>
+  `;
+
+  const input = slot.querySelector('input');
+  const removeBtn = slot.querySelector('.remove-btn');
+  const prompt = slot.querySelector('.upload-prompt');
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    let img = slot.querySelector('img');
+    if (!img) { 
+      img = document.createElement('img'); 
+      slot.prepend(img); 
+    }
+    img.src = url;
+    prompt.style.display = 'none';
+    removeBtn.style.display = 'flex';
+  });
+
+  removeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const img = slot.querySelector('img');
+    if (img) img.remove();
+    input.value = '';
+    prompt.style.display = 'flex';
+    removeBtn.style.display = 'none';
+  });
+
+  gallery.appendChild(slot);
+}
+
+// ── (SCROLL REVEAL) ──
+const observerOptions = {
+  threshold: 0.15,
+  rootMargin: "0px 0px -50px 0px"
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+      // Опціонально: припинити спостереження після появи, щоб анімація програлась 1 раз
+      // observer.unobserve(entry.target); 
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── ФОРМА RSVP ──
+document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  this.style.display = 'none';
+  document.getElementById('rsvpSuccess').style.display = 'block';
+});
+</script>
+</body>
+</html>
